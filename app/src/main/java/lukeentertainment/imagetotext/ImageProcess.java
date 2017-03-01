@@ -75,9 +75,9 @@ public class ImageProcess extends AppCompatActivity {
         {
             for(y=0,c=0;y<col;y++,c=c+4)
             {
-                int avg=((b[x*col*4+c]&0xff+b[x*col*4+c+1]&0xff+b[x*col*4+c+2]&0xff)/3)*2;
+                int avg=(((b[x*col*4+c]&0xff)+(b[x*col*4+c+1]&0xff)+(b[x*col*4+c+2]&0xff))/3);
 
-                if(avg>10)
+                if(avg>50)
                 {
                     b[x*col*4+c+1]=(byte)255;
                     b[x*col*4+c+2]=(byte)255;
