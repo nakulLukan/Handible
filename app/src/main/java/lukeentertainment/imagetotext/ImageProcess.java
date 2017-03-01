@@ -1,13 +1,16 @@
 package lukeentertainment.imagetotext;
 
+import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Environment;
+import android.provider.MediaStore;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import org.opencv.android.BaseLoaderCallback;
 import org.opencv.android.OpenCVLoader;
@@ -19,6 +22,7 @@ import org.opencv.imgproc.Imgproc;
 import java.io.File;
 
 public class ImageProcess extends AppCompatActivity {
+    Context context;
     BaseLoaderCallback baseLoaderCallback=new BaseLoaderCallback(this) {
         @Override
         public void onManagerConnected(int status) {
@@ -43,6 +47,7 @@ public class ImageProcess extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_image_process);
+        context = getApplicationContext();
         initializeView();
 
 
@@ -65,6 +70,24 @@ public class ImageProcess extends AppCompatActivity {
         Bitmap bitmap = BitmapFactory.decodeFile(mediaStorageDir.getPath() + File.separator + "IMG_" + path + ".jpg");
         Mat mat=Mat.zeros(bitmap.getHeight(),bitmap.getWidth(),CvType.CV_8UC4);
         Utils.bitmapToMat(bitmap,mat,false);
+        /* canny edge detection starts */
+        Mat img = new Mat();
+        Utils.bitmapToMat(bitmap, img);
+        // first convert to grey scale
+        Mat gray = new Mat(img.size(), CvType.CV_8UC1);
+        Imgproc.cvtColor(img, gray, Imgproc.COLOR_RGB2GRAY, 4);
+        Imgproc.Canny(gray, gray, 80, 100);
+
+        Bitmap outputBitmap = Bitmap.createBitmap(gray.cols(), gray.rows(), Bitmap.Config.ARGB_8888);
+        Utils.matToBitmap(gray, outputBitmap);
+        /* canny eds*/
+        MediaStore.Images.Media.insertImage(context.getContentResolver(), outputBitmap, "Opencv" , "Hello");
+        Log.d("OPENCV", "Image stored in your gallery");
+        CharSequence text = "photo saved in galler /Picture";
+        int duration = Toast.LENGTH_SHORT;
+        Toast toast = Toast.makeText(context, text, duration);
+        toast.show();
+
         int size=(int)mat.total()*mat.channels();
         byte[] b=new byte[size];
         mat.get(0,0,b);
