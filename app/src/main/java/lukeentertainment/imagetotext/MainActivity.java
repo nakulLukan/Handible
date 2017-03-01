@@ -1,6 +1,7 @@
 package lukeentertainment.imagetotext;
 
 import android.Manifest;
+import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AppCompatActivity;
@@ -51,13 +52,16 @@ import org.opencv.core.Mat;
 
 public class MainActivity extends AppCompatActivity {
 
+
+    private static String timeStamp;
+
     private Size previewsize;
     private Size jpegSizes[] = null;
     private TextureView textureView;
     private CameraDevice cameraDevice;
     private CaptureRequest.Builder previewBuilder;
     private CameraCaptureSession previewSession;
-    Button getpicture;
+    Button getpicture,loadPicture;
     private static final SparseIntArray ORIENTATIONS = new SparseIntArray();
 
     static {
@@ -71,16 +75,38 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        textureView=(TextureView)findViewById(R.id.textureview);
-        textureView.setSurfaceTextureListener(surfaceTextureListener);
-        getpicture=(Button)findViewById(R.id.getpicture);
+
+        initializeViews();
+        initializeListeners();
+
+    }
+
+    private void initializeListeners() {
+
         getpicture.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 getPicture();
             }
         });
+        loadPicture.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent i=new Intent(MainActivity.this,ImageProcess.class);
+                i.putExtra("path",timeStamp);
+                startActivity(i);
+            }
+        });
     }
+
+    private void initializeViews() {
+        textureView=(TextureView)findViewById(R.id.textureview);
+        textureView.setSurfaceTextureListener(surfaceTextureListener);
+        getpicture=(Button)findViewById(R.id.getpicture);
+        loadPicture=(Button)findViewById(R.id.loadPicture);
+
+    }
+
 
     void getPicture() {
         if (cameraDevice == null) {
@@ -97,7 +123,7 @@ public class MainActivity extends AppCompatActivity {
                 width = jpegSizes[0].getWidth();
                 height = jpegSizes[0].getHeight();
             }
-            ImageReader reader = ImageReader.newInstance(width, height, ImageFormat.JPEG, 1);
+            ImageReader reader = ImageReader.newInstance(width, height, ImageFormat.JPEG, 100);
             List<Surface> outputSurfaces = new ArrayList<Surface>(2);
             outputSurfaces.add(reader.getSurface());
             outputSurfaces.add(new Surface(textureView.getSurfaceTexture()));
@@ -114,6 +140,7 @@ public class MainActivity extends AppCompatActivity {
                         image = reader.acquireLatestImage();
                         ByteBuffer buffer = image.getPlanes()[0].getBuffer();
                         byte[] bytes = new byte[buffer.capacity()];
+
                         buffer.get(bytes);
                         save(bytes);
                     } catch (Exception ee) {
@@ -304,11 +331,9 @@ public class MainActivity extends AppCompatActivity {
             }
         }
         // Create a media file name
-        String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss")
-                .format(new Date());
+        timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());
         File mediaFile;
-        mediaFile = new File(mediaStorageDir.getPath() + File.separator
-                + "IMG_" + timeStamp + ".jpg");
+        mediaFile = new File(mediaStorageDir.getPath() + File.separator + "IMG_" + timeStamp + ".jpg");
         return mediaFile;
     }
 

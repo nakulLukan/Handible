@@ -1,6 +1,6 @@
 /*
  * This file is auto-generated.  DO NOT MODIFY.
- * Original file: /mnt/aeadf288-3a45-48ac-a5c2-c08a869bd513/Android/Handible/openCVLibrary320/src/main/aidl/org/opencv/engine/OpenCVEngineInterface.aidl
+ * Original file: F:\\AndroidStudio\\ImageToText\\openCVLibrary320\\src\\main\\aidl\\org\\opencv\\engine\\OpenCVEngineInterface.aidl
  */
 package org.opencv.engine;
 /**

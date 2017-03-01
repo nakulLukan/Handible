@@ -1,10 +1,14 @@
 [
     {
-        "outputFile": "/mnt/aeadf288-3a45-48ac-a5c2-c08a869bd513/Android/Handible/F:\\AndroidStudio\\ImageToText\\openCVLibrary320\\build\\intermediates\\incremental\\mergeDebugAndroidTestResources\\merged.dir\\values\\values.xml",
+        "outputFile": "F:\\AndroidStudio\\ImageToText\\openCVLibrary320\\build\\intermediates\\incremental\\mergeDebugAndroidTestResources\\merged.dir\\values\\values.xml",
         "map": []
     },
     {
-        "outputFile": "/mnt/aeadf288-3a45-48ac-a5c2-c08a869bd513/Android/Handible/openCVLibrary320/build/intermediates/incremental/mergeDebugAndroidTestResources/merged.dir/values/values.xml",
+        "outputFile": "F:\\mnt\\aeadf288-3a45-48ac-a5c2-c08a869bd513\\Android\\Handible\\openCVLibrary320\\build\\intermediates\\incremental\\mergeDebugAndroidTestResources\\merged.dir\\values\\values.xml",
+        "map": []
+    },
+    {
+        "outputFile": "F:\\mnt\\aeadf288-3a45-48ac-a5c2-c08a869bd513\\Android\\Handible\\F:\\AndroidStudio\\ImageToText\\openCVLibrary320\\build\\intermediates\\incremental\\mergeDebugAndroidTestResources\\merged.dir\\values\\values.xml",
         "map": []
     }
 ]
