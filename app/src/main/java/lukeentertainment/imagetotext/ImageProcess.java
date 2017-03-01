@@ -25,6 +25,7 @@ public class ImageProcess extends AppCompatActivity {
             switch (status)
             {
                 case BaseLoaderCallback.SUCCESS:{
+
                     func();
 
                 }
